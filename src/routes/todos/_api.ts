@@ -13,7 +13,7 @@ export const api = (request: Request, data?: Record<string, unknown>) => {
             break;
         case "POST":
             todos.push(data as Todo);
-            body = todos;
+            body = data;
             status = 201;
             break;
         case "DELETE":
@@ -28,6 +28,7 @@ export const api = (request: Request, data?: Record<string, unknown>) => {
                     } else {
                         todo.done = data.done as boolean;
                     }
+                    body = todo;
                 }
                 return todo;
             });
@@ -37,7 +38,7 @@ export const api = (request: Request, data?: Record<string, unknown>) => {
             break;
     }
 
-    if (request.method.toUpperCase() === "GET") {
+    if (request.method.toUpperCase() === "GET" || request.headers.accept === "application/json") {
         return { body, status }; 
     }
 

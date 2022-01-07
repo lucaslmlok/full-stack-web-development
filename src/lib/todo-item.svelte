@@ -1,6 +1,9 @@
 <script lang="ts">
+    import { enhance } from '$lib/actions/form';
+
     export let todo: Todo;
-    const { done } = todo;
+    export let proccessDeletedTodoResult: (res: Response) => void;
+    export let proccessUpdatedTodoResult: (res: Response) => void;
 </script>
 
 <style>
@@ -85,18 +88,18 @@
     }
 </style>
 
-<div class="todo" class:done>
-    <form action="/todos/{todo.uid}.json?_method=patch" method="POST">
-        <input type="hidden" name="done" value="{done ? '' : 'true'}">
-        <button aria-label="Mark todo as {done ? 'not done' : 'done'}" class="toggle"></button>
+<div class="todo" class:done={todo.done}>
+    <form action="/todos/{todo.uid}.json?_method=patch" method="POST" use:enhance={{ result: proccessUpdatedTodoResult }}>
+        <input type="hidden" name="done" value="{todo.done ? '' : 'true'}">
+        <button aria-label="Mark todo as {todo.done ? 'not done' : 'done'}" class="toggle"></button>
     </form>
 
-    <form action="/todos/{todo.uid}.json?_method=patch" method="POST" class="text">
+    <form action="/todos/{todo.uid}.json?_method=patch" method="POST" class="text" use:enhance={{ result: proccessUpdatedTodoResult }}>
         <input type="text" name="text" value="{todo.text}">
         <button type="submit" aria-label="Save todo" class="save"></button>
     </form>
 
-    <form action="/todos/{todo.uid}.json?_method=delete" method="POST">
+    <form action="/todos/{todo.uid}.json?_method=delete" method="POST" use:enhance={{ result: proccessDeletedTodoResult }}>
         <button aria-label="Delete todo" class="delete"></button>
     </form>
 </div>
