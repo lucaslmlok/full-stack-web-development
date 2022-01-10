@@ -10,7 +10,7 @@
     "preview": "svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-    "vercel-build": "prisma migrate deploy && nom run build"
+    "vercel-build": "prisma migrate deploy && npm run build"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "next",
